@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var user_service_1 = require("../Service/user.service");
 var forms_1 = require("@angular/forms");
+var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var enum_1 = require("../Shared/enum");
 var global_1 = require("../Shared/global");
-var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var UserComponent = /** @class */ (function () {
     function UserComponent(fb, _userService) {
         this.fb = fb;
@@ -26,7 +26,7 @@ var UserComponent = /** @class */ (function () {
             Id: [''],
             FirstName: ['', forms_1.Validators.required],
             LastName: [''],
-            Gender: ['']
+            Gender: ['', forms_1.Validators.required]
         });
         this.LoadUsers();
     };
@@ -61,9 +61,6 @@ var UserComponent = /** @class */ (function () {
         this.user = this.users.filter(function (x) { return x.Id == id; })[0];
         this.userFrm.setValue(this.user);
         this.modal.open();
-    };
-    UserComponent.prototype.SetControlsState = function (isEnable) {
-        isEnable ? this.userFrm.enable() : this.userFrm.disable();
     };
     UserComponent.prototype.onSubmit = function (formData) {
         var _this = this;
@@ -113,9 +110,12 @@ var UserComponent = /** @class */ (function () {
                 break;
         }
     };
+    UserComponent.prototype.SetControlsState = function (isEnable) {
+        isEnable ? this.userFrm.enable() : this.userFrm.disable();
+    };
     __decorate([
         core_1.ViewChild('modal'),
-        __metadata("design:type", typeof (_a = typeof ng2_bs3_modal_1.ModalComponent !== "undefined" && ng2_bs3_modal_1.ModalComponent) === "function" && _a || Object)
+        __metadata("design:type", ng2_bs3_modal_1.ModalComponent)
     ], UserComponent.prototype, "modal", void 0);
     UserComponent = __decorate([
         core_1.Component({
@@ -124,7 +124,6 @@ var UserComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [forms_1.FormBuilder, user_service_1.UserService])
     ], UserComponent);
     return UserComponent;
-    var _a;
 }());
 exports.UserComponent = UserComponent;
 //# sourceMappingURL=user.component.js.map

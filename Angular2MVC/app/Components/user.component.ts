@@ -1,17 +1,18 @@
 ﻿import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from '../Service/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IUser } from '../Models/user';
+import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
+import { IUser } from '../Model/user';
 import { DBOperation } from '../Shared/enum';
 import { Observable } from 'rxjs/Rx';
 import { Global } from '../Shared/global';
-import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 
 @Component({
     templateUrl: 'app/Components/user.component.html'
 })
 
 export class UserComponent implements OnInit {
+
     @ViewChild('modal') modal: ModalComponent;
     users: IUser[];
     user: IUser;
@@ -25,24 +26,20 @@ export class UserComponent implements OnInit {
     constructor(private fb: FormBuilder, private _userService: UserService) { }
 
     ngOnInit(): void {
-
         this.userFrm = this.fb.group({
             Id: [''],
             FirstName: ['', Validators.required],
             LastName: [''],
-            Gender: ['']
+            Gender: ['', Validators.required]
         });
-
         this.LoadUsers();
-
     }
 
     LoadUsers(): void {
         this.indLoading = true;
         this._userService.get(Global.BASE_USER_ENDPOINT)
             .subscribe(users => { this.users = users; this.indLoading = false; },
-                error => this.msg = <any>error);
-
+            error => this.msg = <any>error);
     }
 
     addUser() {
@@ -74,72 +71,74 @@ export class UserComponent implements OnInit {
         this.modal.open();
     }
 
-    SetControlsState(isEnable: boolean) {
-        isEnable ? this.userFrm.enable() : this.userFrm.disable();
-    }
-
     onSubmit(formData: any) {
         this.msg = "";
-
+   
         switch (this.dbops) {
-        case DBOperation.create:
-            this._userService.post(Global.BASE_USER_ENDPOINT, formData._value).subscribe(
-                data => {
-                    if (data == 1) //Success
-                    {
-                        this.msg = "Data successfully added.";
-                        this.LoadUsers();
+            case DBOperation.create:
+                this._userService.post(Global.BASE_USER_ENDPOINT, formData._value).subscribe(
+                    data => {
+                        if (data == 1) //Success
+                        {
+                            this.msg = "Data successfully added.";
+                            this.LoadUsers();
+                        }
+                        else
+                        {
+                            this.msg = "There is some issue in saving records, please contact to system administrator!"
+                        }
+                        
+                        this.modal.dismiss();
+                    },
+                    error => {
+                      this.msg = error;
                     }
-                    else {
-                        this.msg = "There is some issue in saving records, please contact to system administrator!"
-                    }
+                );
+                break;
+            case DBOperation.update:
+                this._userService.put(Global.BASE_USER_ENDPOINT, formData._value.Id, formData._value).subscribe(
+                    data => {
+                        if (data == 1) //Success
+                        {
+                            this.msg = "Data successfully updated.";
+                            this.LoadUsers();
+                        }
+                        else {
+                            this.msg = "There is some issue in saving records, please contact to system administrator!"
+                        }
 
-                    this.modal.dismiss();
-                },
-                error => {
-                    this.msg = error;
-                }
-            );
-            break;
-        case DBOperation.update:
-            this._userService.put(Global.BASE_USER_ENDPOINT, formData._value.Id, formData._value).subscribe(
-                data => {
-                    if (data == 1) //Success
-                    {
-                        this.msg = "Data successfully updated.";
-                        this.LoadUsers();
+                        this.modal.dismiss();
+                    },
+                    error => {
+                        this.msg = error;
                     }
-                    else {
-                        this.msg = "There is some issue in saving records, please contact to system administrator!"
-                    }
+                );
+                break;
+            case DBOperation.delete:
+                this._userService.delete(Global.BASE_USER_ENDPOINT, formData._value.Id).subscribe(
+                    data => {
+                        if (data == 1) //Success
+                        {
+                            this.msg = "Data successfully deleted.";
+                            this.LoadUsers();
+                        }
+                        else {
+                            this.msg = "There is some issue in saving records, please contact to system administrator!"
+                        }
 
-                    this.modal.dismiss();
-                },
-                error => {
-                    this.msg = error;
-                }
-            );
-            break;
-        case DBOperation.delete:
-            this._userService.delete(Global.BASE_USER_ENDPOINT, formData._value.Id).subscribe(
-                data => {
-                    if (data == 1) //Success
-                    {
-                        this.msg = "Data successfully deleted.";
-                        this.LoadUsers();
+                        this.modal.dismiss();
+                    },
+                    error => {
+                        this.msg = error;
                     }
-                    else {
-                        this.msg = "There is some issue in saving records, please contact to system administrator!"
-                    }
-
-                    this.modal.dismiss();
-                },
-                error => {
-                    this.msg = error;
-                }
-            );
-            break;
+                );
+                break;
 
         }
+    }
+
+    SetControlsState(isEnable: boolean)
+    {
+        isEnable ? this.userFrm.enable() : this.userFrm.disable();
     }
 }

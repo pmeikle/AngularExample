@@ -1,13 +1,13 @@
-﻿using System.Net;
+﻿using Angular2MVC.DBContext;
+using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web.Http;
-using Newtonsoft.Json;
-using Angular2MVC.DBContext;
 
 namespace Angular2MVC.Controllers
 {
-    public class BaseApiController : ApiController
+    public class BaseAPIController : ApiController
     {
         protected readonly UserDBEntities UserDB = new UserDBEntities();
         protected HttpResponseMessage ToJson(dynamic obj)

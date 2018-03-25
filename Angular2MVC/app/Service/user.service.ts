@@ -1,18 +1,17 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Http, Response, Headers, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-import { IUser } from '../Models/user';
 
 @Injectable()
 export class UserService {
     constructor(private _http: Http) { }
 
-    get(url: string): Observable<IUser[]> {
+    get(url: string): Observable<any> {
         return this._http.get(url)
-            .map((response: Response) => <IUser[]>response.json())
+            .map((response: Response) => <any>response.json())
             // .do(data => console.log("All: " + JSON.stringify(data)))
             .catch(this.handleError);
     }
@@ -30,7 +29,7 @@ export class UserService {
         let body = JSON.stringify(model);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.put(url + id, body, options)
+        return this._http.put(url+id, body, options)
             .map((response: Response) => <any>response.json())
             .catch(this.handleError);
     }
@@ -38,7 +37,7 @@ export class UserService {
     delete(url: string, id: number): Observable<any> {
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this._http.delete(url + id, options)
+        return this._http.delete(url+id,options)
             .map((response: Response) => <any>response.json())
             .catch(this.handleError);
     }

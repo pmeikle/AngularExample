@@ -24,25 +24,25 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@angular/common": "~4.3.4",
-    "@angular/compiler": "~4.3.4",
-    "@angular/core": "~4.3.4",
-    "@angular/forms": "~4.3.4",
-    "@angular/http": "~4.3.4",
-    "@angular/platform-browser": "~4.3.4",
-    "@angular/platform-browser-dynamic": "~4.3.4",
-    "@angular/router": "~4.3.4",
+    "@angular/common": "~2.4.0",
+    "@angular/compiler": "~2.4.0",
+    "@angular/core": "~2.4.0",
+    "@angular/forms": "~2.4.0",
+    "@angular/http": "~2.4.0",
+    "@angular/platform-browser": "~2.4.0",
+    "@angular/platform-browser-dynamic": "~2.4.0",
+    "@angular/router": "~3.4.0",
 
-    "angular-in-memory-web-api": "~0.3.0",
+    "angular-in-memory-web-api": "~0.2.4",
     "systemjs": "0.19.40",
     "core-js": "^2.4.1",
     "rxjs": "5.4.2",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.7.4"
   },
   "devDependencies": {
     "concurrently": "^3.2.0",
     "lite-server": "^2.2.2",
-    "typescript": "~2.4.0",
+    "typescript": "~2.0.10",
 
     "canonical-path": "0.0.2",
     "tslint": "^3.15.1",
@@ -58,7 +58,7 @@
 
     "@types/node": "^6.0.46",
     "@types/jasmine": "2.5.36",
-    "ng2-bs3-modal":  "^0.10.4" 
+    "ng2-bs3-modal": "0.10.4"
   },
   "repository": {}
 }
